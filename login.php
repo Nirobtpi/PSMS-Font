@@ -1,10 +1,6 @@
-<?php
-require_once("config.php");
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
+
 
 <head>
 
@@ -16,11 +12,11 @@ require_once("config.php");
 	<meta name="robots" content="" />
 
 	<!-- DESCRIPTION -->
-	<meta name="description" content="PSMS : Student Registration" />
+	<meta name="description" content="PSMS - Student Login" />
 
 	<!-- OG -->
-	<meta property="og:title" content="PSMS : Student Registration" />
-	<meta property="og:description" content="PSMS : Student Registration" />
+	<meta property="og:title" content="PSMS - Student Login" />
+	<meta property="og:description" content="PSMS - Student Login" />
 	<meta property="og:image" content="" />
 	<meta name="format-detection" content="telephone=no">
 
@@ -29,7 +25,7 @@ require_once("config.php");
 	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
 
 	<!-- PAGE TITLE HERE ============================================= -->
-	<title>PSMS : Student Registration </title>
+	<title>PSMS - Student Login</title>
 
 	<!-- MOBILE SPECIFIC ============================================= -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -64,65 +60,16 @@ require_once("config.php");
 			<div class="account-form-inner">
 				<div class="account-container">
 					<div class="heading-bx left">
-						<h2 class="title-head">Sign Up <span>Now</span></h2>
-						<p>Login Your Account <a href="login.php">Click here</a></p>
+						<h2 class="title-head">Student <span>Login</span></h2>
+						<p>Don't have an account? <a href="register.php">Create one here</a></p>
 					</div>
 					<form class="contact-bx" method="POST">
 						<div class="row placeani">
 							<div class="col-lg-12">
 								<div class="form-group">
 									<div class="input-group">
-										<label>Student Name</label>
-										<input name="st_name" type="text" required="" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Student Email</label>
-										<input name="st_email" type="email" required="" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Father Name</label>
-										<input name="st_fname" type="text" required="" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Mother Name</label>
-										<input name="st_mname" type="text" required="" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Date Of Birth</label>
-										<input name="st_birthday" type="date" required="" class="form-control">
-									</div>
-								</div>
-							</div>
-
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Student Phone Number</label>
-										<input name="st_phone" type="text" required="" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Father Phone Nmber</label>
-										<input name="st_f_phone" type="text" required="" class="form-control">
+										<label>Email Or Mobile Number</label>
+										<input name="st_username" type="text" required="" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -130,39 +77,21 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Your Password</label>
-										<input name="password" type="password" class="form-control" required="">
+										<input name="st_password" type="password" class="form-control" required="">
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Confirm Password</label>
-										<input name="confirmpassword" type="password" class="form-control" required="">
+								<div class="form-group form-forget">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+										<label class="custom-control-label" for="customControlAutosizing">Remember me</label>
 									</div>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="form-group">
-									<label>Gender</label>
-									<br>
-
-									<input type="radio" value="male" name="gender" id="male">
-									<label for="male"> Male</label>&nbsp;&nbsp;
-
-									<input type="radio" value="male" name="gender" id="female"> <label for="female"> Female</label>
-								</div>
-							</div>
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Address</label>
-										<input name="address" type="textarea" class="form-control">
-									</div>
+									<a href="forget-password.php" class="ml-auto">Forgot Password?</a>
 								</div>
 							</div>
 							<div class="col-lg-12 m-b30">
-								<button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
+								<button name="st_login_btn" type="submit" value="Submit" class="btn button-md">Login</button>
 							</div>
 						</div>
 					</form>
@@ -183,7 +112,7 @@ require_once("config.php");
 	<script src="assets/vendors/masonry/masonry.js"></script>
 	<script src="assets/vendors/masonry/filter.js"></script>
 	<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-	<script src="assets/js/main.js"></script>
+	<script src="assets/js/functions.js"></script>
 	<script src="assets/js/contact.js"></script>
 	<script src='assets/vendors/switcher/switcher.js'></script>
 </body>
