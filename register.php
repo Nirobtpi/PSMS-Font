@@ -1,6 +1,51 @@
 <?php
 require_once("config.php");
 
+if (isset($_POST['st_registration'])) {
+	$stName = $_POST['st_name'];
+	$stEmail = $_POST['st_email'];
+	$stFname = $_POST['st_fname'];
+	$stMname = $_POST['st_mname'];
+	$birthday = $_POST['st_birthday'];
+	$stphone = $_POST['st_phone'];
+	$stFphone = $_POST['st_f_phone'];
+	$password = $_POST['password'];
+	$confirmpassword = $_POST['confirmpassword'];
+	$gender = $_POST['gender'];
+	$address = $_POST['address'];
+	$patten = '/^(?:\+88|88)?(01[3-9]\d{8})$/';
+
+
+
+	// echo $gender;
+
+
+	if (empty($stName)) {
+		$error = "Enter Your Name";
+	} elseif (empty($stEmail)) {
+		$error = "Enter Your Email Address";
+	} elseif (!filter_var($stEmail, FILTER_VALIDATE_EMAIL)) {
+		$error = "Please Enter A Valid Email!";
+	} elseif (empty($stFname)) {
+		$error = "Enter Your Father Name!";
+	} elseif (empty($stMname)) {
+		$error = "Enter Your Mother Name";
+	} elseif (empty($stphone)) {
+		$error = "Enter Your Phone Number";
+	} elseif (!preg_match($patten, $stphone)) {
+		$error = "Enter A Valid Phone Number";
+	} elseif (!preg_match($patten, $stFphone)) {
+		$error = "Please Enter A Valid Phone Number Of Your Father";
+	} elseif (empty($password)) {
+		$error = "Enter Your Password";
+	} elseif ($password != $confirmpassword) {
+		$error = "Password Doees Not Match";
+	} elseif (strlen($password) < 6 || strlen($password) > 15) {
+		$error = "Password Must Be Used 6 to 15 digit";
+	} elseif (empty($$gender)) {
+		$error = "Please Select A Gender";
+	}
+}
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +111,17 @@ require_once("config.php");
 					<div class="heading-bx left">
 						<h2 class="title-head">Sign Up <span>Now</span></h2>
 						<p>Login Your Account <a href="login.php">Click here</a></p>
+
+						<?php if (isset($error)) : ?>
+							<div class="alert alert-danger">
+								<?php echo $error; ?>
+							</div>
+						<?php endif; ?>
+						<?php if (isset($success)) : ?>
+							<div class="alert alert-success">
+								<?php echo $success; ?>
+							</div>
+						<?php endif; ?>
 					</div>
 					<form class="contact-bx" method="POST">
 						<div class="row placeani">
@@ -73,7 +129,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Student Name</label>
-										<input name="st_name" type="text" required="" class="form-control">
+										<input name="st_name" value="<?php getValue("st_name") ?>" type="text" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -81,7 +137,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Student Email</label>
-										<input name="st_email" type="email" required="" class="form-control">
+										<input name="st_email" value="<?php getValue("st_email") ?>" type="email" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -89,7 +145,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Father Name</label>
-										<input name="st_fname" type="text" required="" class="form-control">
+										<input name="st_fname" value="<?php getValue("st_fname") ?>" type="text" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -97,7 +153,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Mother Name</label>
-										<input name="st_mname" type="text" required="" class="form-control">
+										<input name="st_mname" value="<?php getValue("st_mname") ?>" type="text" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -105,7 +161,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Date Of Birth</label>
-										<input name="st_birthday" type="date" required="" class="form-control">
+										<input name="st_birthday" value="<?php getValue("st_birthday") ?>" type="date" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -114,7 +170,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Student Phone Number</label>
-										<input name="st_phone" type="text" required="" class="form-control">
+										<input name="st_phone" value="<?php getValue("st_phone") ?>" type="text" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -122,7 +178,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Father Phone Nmber</label>
-										<input name="st_f_phone" type="text" required="" class="form-control">
+										<input name="st_f_phone" value="<?php getValue("st_f_phone") ?>" type="text" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -130,7 +186,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Your Password</label>
-										<input name="password" type="password" class="form-control" required="">
+										<input name="password" type="password" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -138,7 +194,7 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Confirm Password</label>
-										<input name="confirmpassword" type="password" class="form-control" required="">
+										<input name="confirmpassword" type="password" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -147,7 +203,7 @@ require_once("config.php");
 									<label>Gender</label>
 									<br>
 
-									<input type="radio" value="male" name="gender" id="male">
+									<input type="radio" value="male" name="gender" id="male" checked>
 									<label for="male"> Male</label>&nbsp;&nbsp;
 
 									<input type="radio" value="male" name="gender" id="female"> <label for="female"> Female</label>
@@ -157,12 +213,13 @@ require_once("config.php");
 								<div class="form-group">
 									<div class="input-group">
 										<label>Address</label>
-										<input name="address" type="textarea" class="form-control">
+										<textarea name="address" class="form-control" id=""><?php getValue("address") ?></textarea>
+										<!-- <input name="address" type="textarea" class="form-control"> -->
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-12 m-b30">
-								<button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
+								<button name="st_registration" type="submit" class="btn button-md">Sign Up</button>
 							</div>
 						</div>
 					</form>
