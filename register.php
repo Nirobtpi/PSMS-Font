@@ -42,8 +42,17 @@ if (isset($_POST['st_registration'])) {
 		$error = "Password Doees Not Match";
 	} elseif (strlen($password) < 6 || strlen($password) > 15) {
 		$error = "Password Must Be Used 6 to 15 digit";
-	} elseif (empty($$gender)) {
+	} elseif (empty($gender)) {
 		$error = "Please Select A Gender";
+	}else{
+
+		$password=sha1($password);
+		$now=date("Y-d-m h:i:s");
+
+		$stm=$conn->prepare("INSERT INTO student (name,email,mobile,father_name,father_mobile,mother_name,gender,birthday,address,password,roll,current_class,registration_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		$stm->execute(array($stName, $stEmail, $stphone, $stFname, $stFphone, $stMname, $gender, $birthday, $address, $password,null,null,$now));
+
+		$success="Data Insert Success";
 	}
 }
 ?>
