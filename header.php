@@ -1,3 +1,8 @@
+<?php 
+require_once('config.php');
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,8 +75,12 @@
                         </div>
                         <div class="topbar-right">
                             <ul>
+                                <?php if(isset($_SESSION['st_loggedin'])): ?>
+                                <li><a href="dashboard/index.php">Student Dashboard</a></li>
+                                <?php else: ?>
                                 <li><a href="login.php">Login</a></li>
                                 <li><a href="register.php">Register</a></li>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
@@ -176,8 +185,8 @@
                                         <li><a href="blog-details.html">Blog Details</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-dashboard"><a href="dashboard.php">Student  Dashboard</a>
-                             
+                                <li class="nav-dashboard"><a href="dashboard/index.php">Student Dashboard</a>
+
                                 </li>
                             </ul>
                             <div class="nav-social-link">

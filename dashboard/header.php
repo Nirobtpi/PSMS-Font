@@ -5,14 +5,11 @@ session_start();
 if (!isset($_SESSION['st_loggedin'])) {
     header('location:../login.php');
 }
-// session_destroy();
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
 
 <head>
 
@@ -24,11 +21,11 @@ if (!isset($_SESSION['st_loggedin'])) {
     <meta name="robots" content="" />
 
     <!-- DESCRIPTION -->
-    <meta name="description" content="EduChamp : Education HTML Template" />
+    <meta name="description" content="PSMS : Student Dashboard" />
 
     <!-- OG -->
-    <meta property="og:title" content="EduChamp : Education HTML Template" />
-    <meta property="og:description" content="EduChamp : Education HTML Template" />
+    <meta property="og:title" content="PSMS : Student Dashboard" />
+    <meta property="og:description" content="PSMS : Student Dashboard" />
     <meta property="og:image" content="" />
     <meta name="format-detection" content="telephone=no">
 
@@ -37,7 +34,7 @@ if (!isset($_SESSION['st_loggedin'])) {
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
 
     <!-- PAGE TITLE HERE ============================================= -->
-    <title>EduChamp : Education HTML Template </title>
+    <title>PSMS : Student Dashboard</title>
 
     <!-- MOBILE SPECIFIC ============================================= -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
