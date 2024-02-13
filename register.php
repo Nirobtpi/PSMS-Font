@@ -15,6 +15,10 @@ if (isset($_POST['st_registration'])) {
 	$address = $_POST['address'];
 	$patten = '/^(?:\+88|88)?(01[3-9]\d{8})$/';
 
+	$emailcount = RowcountValue("student", 'email', $stEmail);
+	$st_mobile_count = RowcountValue("student", 'mobile', $stphone);
+
+
 
 
 	// echo $gender;
@@ -44,17 +48,29 @@ if (isset($_POST['st_registration'])) {
 		$error = "Password Must Be Used 6 to 15 digit";
 	} elseif (empty($gender)) {
 		$error = "Please Select A Gender";
-	}else{
+	} elseif ($emailcount != 0) {
+		$error = "Email Already Used!";
+	} elseif ($st_mobile_count != 0) {
+		$error = "Mobile Number Already Used!";
+	} else {
 
-		$password=sha1($password);
-		$now=date("Y-d-m h:i:s");
+		$password = sha1($password);
+		$now = date("Y-d-m h:i:s");
 
-		$stm=$conn->prepare("INSERT INTO student (name,email,mobile,father_name,father_mobile,mother_name,gender,birthday,address,password,roll,current_class,registration_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		$stm->execute(array($stName, $stEmail, $stphone, $stFname, $stFphone, $stMname, $gender, $birthday, $address, $password,null,null,$now));
+		$stm = $conn->prepare("INSERT INTO student (name,email,mobile,father_name,father_mobile,mother_name,gender,birthday,address,password,roll,current_class,registration_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+	$res=	$stm->execute(array($stName, $stEmail, $stphone, $stFname, $stFphone, $stMname, $gender, $birthday, $address, $password, null, null, $now));
 
-		$success="Data Insert Success";
+		if($res == true){
+			$success = "Your Registration Successfully!";
+			header("location:login.php");
+		}else{
+			$error="Registration Failed!";
+		}
 	}
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -119,7 +135,7 @@ if (isset($_POST['st_registration'])) {
 				<div class="account-container">
 					<div class="heading-bx left">
 						<h2 class="title-head">Sign Up <span>Now</span></h2>
-						<p>Login Your Account <a href="login.php">Click here</a></p>
+						<p class="mb-3">Login Your Account <a href="login.php">Click here</a></p>
 
 						<?php if (isset($error)) : ?>
 							<div class="alert alert-danger">

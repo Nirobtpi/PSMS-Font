@@ -1,3 +1,38 @@
+<?php
+require_once("config.php");
+session_start();
+if (isset($_POST['st_login_btn'])) {
+	$st_username = $_POST['st_username'];
+	$st_password = $_POST['st_password'];
+
+	if (empty($st_username)) {
+		$error = "User Name Is Required!";
+	} elseif (empty($st_password)) {
+		$error = "Password Is Required!";
+	} else {
+
+		$st_password = SHA1($st_password);
+		$stm = $conn->prepare("SELECT id,email,mobile ,password FROM student WHERE email=? OR mobile=? and password=?");
+		$stm->execute(array($st_username, $st_username, $st_password));
+		$loginCount = $stm->rowCount();
+
+		if ($loginCount == 1) {
+			// header("location:index.php");
+			$stData = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$_SESSION['st_loggedin'] = $stData;
+
+			header("location:dashboard/index.php");
+		} else {
+			$error = "User Mobile Or Email Or Password Does Not Match!";
+		}
+	}
+}
+if(isset($_SESSION['st_loggedin'])){
+	header("location:dashboard/index.php");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,7 +96,20 @@
 				<div class="account-container">
 					<div class="heading-bx left">
 						<h2 class="title-head">Student <span>Login</span></h2>
-						<p>Don't have an account? <a href="register.php">Create one here</a></p>
+						<p class="mb-3">Don't have an account? <a href="register.php">Create one here</a></p>
+
+						<?php if (isset($error)) : ?>
+							<div class="alert alert-danger">
+								<?php echo $error; ?>
+							</div>
+						<?php endif; ?>
+						<?php if (isset($success)) : ?>
+							<div class="alert alert-success">
+								<?php echo $success; ?>
+							</div>
+						<?php endif; ?>
+
+
 					</div>
 					<form class="contact-bx" method="POST">
 						<div class="row placeani">
@@ -69,7 +117,7 @@
 								<div class="form-group">
 									<div class="input-group">
 										<label>Email Or Mobile Number</label>
-										<input name="st_username" type="text" required="" class="form-control">
+										<input name="st_username" type="text" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -77,7 +125,7 @@
 								<div class="form-group">
 									<div class="input-group">
 										<label>Your Password</label>
-										<input name="st_password" type="password" class="form-control" required="">
+										<input name="st_password" type="password" class="form-control">
 									</div>
 								</div>
 							</div>
