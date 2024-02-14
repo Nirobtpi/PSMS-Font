@@ -7,6 +7,8 @@ function getValue($value){
     }
 }
 
+// get row count 
+
 function RowcountValue($tbl,$col, $val){
     global $conn;
 
@@ -15,6 +17,17 @@ function RowcountValue($tbl,$col, $val){
     $res=$stm->rowCount();
 
     return $res;
+}
+
+// get student data 
+
+function Student($tbl,$col,$id){
+    global $conn;
+    $stm=$conn->prepare("SELECT $col FROM $tbl WHERE id=?");
+    $stm->execute(array($id));
+    $res=$stm->fetch(PDO::FETCH_ASSOC);
+
+    return $res[0][$col];
 }
 
 ?>

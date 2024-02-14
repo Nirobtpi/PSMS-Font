@@ -12,23 +12,32 @@ if (isset($_POST['st_login_btn'])) {
 	} else {
 
 		$st_password = SHA1($st_password);
-		$stm = $conn->prepare("SELECT id,email,mobile ,password FROM student WHERE email=? OR mobile=? and password=?");
+		$stm = $conn->prepare("SELECT id,name,email,mobile ,password,is_email_verifed,is_mobile_verifed FROM student WHERE email=? OR mobile=? and password=?");
 		$stm->execute(array($st_username, $st_username, $st_password));
 		$loginCount = $stm->rowCount();
 
 		if ($loginCount == 1) {
 			// header("location:index.php");
-			$stData = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$stData = $stm->fetch(PDO::FETCH_ASSOC);
 			$_SESSION['st_loggedin'] = $stData;
 
-			header("location:dashboard/index.php");
+
+			if ($stData['is_email_verifed'] == 1 and $stData['is_mobile_verifed'] == 1) {
+				header("location:dashboard/index.php");
+			} else {
+				header("location:varify2.php");
+			}
 		} else {
 			$error = "User Mobile Or Email Or Password Does Not Match!";
 		}
 	}
 }
-if(isset($_SESSION['st_loggedin'])){
-	header("location:dashboard/index.php");
+if (isset($_SESSION['st_loggedin'])) {
+	if ($stData['is_email_verifed'] == 1 and $stData['is_mobile_verifed'] == 1) {
+		header("location:dashboard/index.php");
+	} else {
+		header("location:varify2.php");
+	}
 }
 ?>
 

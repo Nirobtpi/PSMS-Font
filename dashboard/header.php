@@ -1,9 +1,15 @@
 <?php
 require_once('../config.php');
 session_start();
-
-if (!isset($_SESSION['st_loggedin'])) {
-    header('location:../login.php');
+// if (!isset($_SESSION['st_loggedin']) or $_SESSION['st_loggedin']['is_email_verifed'] == 1 or $_SESSION['st_loggedin']['is_email_verifed'] == 1) {
+//     header('location:logout.php');
+// }
+if (
+    !isset($_SESSION['st_loggedin']) OR
+    $_SESSION['st_loggedin']['is_email_verifed'] != 1 OR
+    $_SESSION['st_loggedin']['is_mobile_verifed'] != 1
+) {
+    header('location:logout.php');
 }
 
 ?>
