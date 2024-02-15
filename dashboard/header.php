@@ -1,10 +1,10 @@
 <?php
 require_once('../config.php');
 session_start();
-$user_id=$_SESSION['st_loggedin']['id'];
+$user_id = $_SESSION['st_loggedin']['id'];
 $email_Status = Student('student', 'is_email_verifed', $user_id);
 $mobile_Status = Student('student', 'is_mobile_verifed', $user_id);
-if(!isset($_SESSION['st_loggedin']) and $email_Status !=1 and $mobile_Status !=1){
+if (!isset($_SESSION['st_loggedin']) and $email_Status != 1 and $mobile_Status != 1) {
     header("location:logout.php");
 }
 
@@ -55,6 +55,7 @@ if(!isset($_SESSION['st_loggedin']) and $email_Status !=1 and $mobile_Status !=1
 
     <!-- SHORTCODES ============================================= -->
     <link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <!-- STYLESHEETS ============================================= -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
@@ -336,6 +337,14 @@ if(!isset($_SESSION['st_loggedin']) and $email_Status !=1 and $mobile_Status !=1
                                 <a href="teacher-profile.html" class="ttr-material-button"><span class="ttr-label">Teacher Profile</span></a>
                             </li>
                         </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="logout.php" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                            <span class="ttr-label">Logout</span>
+                        </a>
                     </li>
                     <li class="ttr-seperate"></li>
                 </ul>
