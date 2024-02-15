@@ -56,19 +56,19 @@ if (isset($_POST['st_registration'])) {
 
 		$password = sha1($password);
 		$now = date("Y-d-m h:i:s");
-		$email_code=rand(9999,999999);
-		$mobile_code=rand(9999,999999);
+		// $email_code=rand(9999,999999);
+		// $mobile_code=rand(9999,999999);
 
-		$stm = $conn->prepare("INSERT INTO student (name,email,mobile,father_name,father_mobile,mother_name,gender,birthday,address,password,roll,current_class,registration_date,email_code,mobile_code) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		$res=	$stm->execute(array($stName, $stEmail, $stphone, $stFname, $stFphone, $stMname, $gender, $birthday, $address, $password, null, null, $now,$email_code,$mobile_code));
+		$stm = $conn->prepare("INSERT INTO student (name,email,mobile,father_name,father_mobile,mother_name,gender,birthday,address,password,registration_date) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+		$res=	$stm->execute(array($stName, $stEmail, $stphone, $stFname, $stFphone, $stMname, $gender, $birthday, $address, $password,$now));
 
 		if($res == true){
 			
 			$success = "Your Registration Successfully!";
 
 			// send email code 
-			$message="Your Varification Code is: ". $email_code;
-			mail($stEmail,"Emial Varification",$email_code);
+			// $message="Your Varification Code is: ". $email_code;
+			// mail($stEmail,"Emial Varification",$email_code);
 			
 			header("location:login.php");
 		}else{

@@ -25,7 +25,7 @@ if (isset($_POST['st_login_btn'])) {
 			if ($stData['is_email_verifed'] == 1 and $stData['is_mobile_verifed'] == 1) {
 				header("location:dashboard/index.php");
 			} else {
-				header("location:varify2.php");
+				header("location:varify.php");
 			}
 		} else {
 			$error = "User Mobile Or Email Or Password Does Not Match!";
@@ -34,9 +34,9 @@ if (isset($_POST['st_login_btn'])) {
 }
 if (isset($_SESSION['st_loggedin'])) {
 	if ($stData['is_email_verifed'] == 1 and $stData['is_mobile_verifed'] == 1) {
-		header("location:dashboard/index.php");
+		header("location:index.php");
 	} else {
-		header("location:varify2.php");
+		header("location:varify.php");
 	}
 }
 ?>

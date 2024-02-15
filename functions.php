@@ -27,7 +27,7 @@ function Student($tbl,$col,$id){
     $stm->execute(array($id));
     $res=$stm->fetch(PDO::FETCH_ASSOC);
 
-    return $res[0][$col];
+    return $res[$col];
 }
 
 ?>

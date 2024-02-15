@@ -2,78 +2,85 @@
 require_once("config.php");
 session_start();
 $user_id = $_SESSION['st_loggedin']['id'];
+$user_email = $_SESSION['st_loggedin']['email'];
 
-if (!isset($_SESSION['st_loggedin'])) {
-    header("location:login.php");
+// email code send 
+if (isset($_POST['email_code_send'])) {
+    $email_code = rand(9999, 999999);
+
+    $stm = $conn->prepare("UPDATE student SET email_code=? WHERE id=? and email=?");
+    $send_code = $stm->execute(array($email_code, $user_id, $user_email));
+
+    if ($send_code == true) {
+        $_SESSION['email_status'] = 1;
+
+        $success = "Varification Code Send Successfully! Please Cheek Your Registration Email!";
+    }
+}
+// email code resend
+if (isset($_POST['resend_email_code_send'])) {
+    $email_code = rand(9999, 999999);
+
+    $stm = $conn->prepare("UPDATE student SET email_code=? WHERE id=? and email=?");
+    $send_code = $stm->execute(array($email_code, $user_id, $user_email));
+
+    $success = "Resend Varification Code Send Successfully! Please Cheek Your Registration Email!";
+}
+// email code varifi 
+if (isset($_POST['email_varify'])) {
+    $email_varify = $_POST['db_code'];
+    $db_code = Student('student', 'email_code', $user_id);
+
+    if (empty($email_varify)) {
+        $error = "Please Enter Your Varification Code";
+    } elseif ($email_varify != $db_code) {
+        $error = "Invalid Varification Code!";
+    } else {
+        $stm = $conn->prepare("UPDATE student SET email_code= ?, is_email_verifed= ? WHERE id=?");
+        $stm->execute(array(null, 1, $user_id));
+
+        $success = "Email Varification Success!";
+    }
 }
 
-// session_destroy();
-
-// if (isset($_POST['email_code_send_btn'])) {
-//     $user_email = $_SESSION['st_loggedin']['email'];
-
-//     $email_code = rand(9999, 999999);
-
-//     $subject = "PSMS- Email Varification.";
 
 
-//     $message = "
-//     <html>
-//     <head>
-//     <title>Email Varification.</title>
-//     </head>
-//     <body>
-//     <p><b>Email Varification.</b></p>
-//     <table>
-//     <tr>
-//     <th>Code</th>
-//     <th>" . $email_code . "</th>
-//     <th>Lastname</th>
-//     </tr>
-//     <p>Thanks.</p>
-//     </table>
-//     </body>
-//     </html>";
+// send mobile code varification 
 
-//     // Always set content-type when sending HTML email
-//     $headers = "MIME-Version: 1.0" . "\r\n";
-//     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+if (isset($_POST['st_mobile_code_Send'])) {
+    $mobile_code = rand(9999, 999999);
 
-//     $headers .= 'From: <' . $_SESSION['st_loggedin']['email'] . '>' . "\r\n";
+    $stm = $conn->prepare("UPDATE student SET mobile_code=? WHERE id=?");
+    $res = $stm->execute(array($mobile_code, $user_id));
 
-//     $send_mail = mail($user_email, $subject, $message, $headers);
+    if ($res == true) {
+        $_SESSION['mobile_varify'] = 1;
+        $success = "Mobile Code Send Successfully! Please Cheek Your Phone Number!";
+    }
+}
 
-//     if ($send_mail == true) {
-//         $stm = $conn->prepare("UPDATE student SET email_code=? WHERE id=? AND email=?");
-//         $stm->execute(array($email_code, $user_id, $_SESSION['st_loggedin']['email']));
+if(isset($_POST['st_mobile_varify'])){
+    $mobile_varify_code=$_POST['st_mobile_code'];
+    $db_mobile_code=Student('student','mobile_code',$user_id);
 
-//         $_SESSION['email_code_send'] == 1;
-//         $success = "Code Send Successfully Please Cheek your EMail";
-//     } else {
-//         $error = "Email Send Failed!";
-//     }
-// };
+    if(empty($mobile_varify_code)){
+        $error="Please Enter Your Varification Code";
+    }elseif($mobile_varify_code != $db_mobile_code){
+        $error="Invalid! Code";
+    }else{
+        $stm=$conn->prepare("UPDATE student SET is_mobile_verifed=?,mobile_code=? WHERE id=?");
+        $stm->execute(array(1,null,$user_id));
+        $success="Mobile Varification SUccess!";
+    }
+}
+if(isset($_POST['st_mobile_resend_code'])){
 
+    $mobile_resend_code=rand(9999,999999);
 
-// // email varify 
-
-// if (isset($_POST['email_varify'])) {
-//     $email_code = $_POST['email_code'];
-//     $dbCode = Student('student', 'email_code', $user_id);
-//     echo $dbCode;
-
-//     if (empty($email_code)) {
-//         $error = "Email Code is Required!";
-//     } elseif ($email_code != $dbCode) {
-//         $error = "Envalid Code!";
-//     } else {
-//         $stm = $conn->prepare("UPDATE student SET email_code=?,is_email_verifed=? WHERE id=? AND email=?");
-//         $stm->execute(array(null, 1, $user_id, $_SESSION['st_loggedin']['email']));
-//         unset($_SESSION['email_code_send']);
-//         $success = "Your Email Varify Success";
-//     }
-// }
-
+        $stm=$conn->prepare("UPDATE student SET mobile_code=? WHERE id=?");
+        $stm->execute(array($mobile_resend_code,$user_id));
+        $success="Mobile Varification Resend SUccess!";
+}
 ?>
 
 
@@ -91,11 +98,11 @@ if (!isset($_SESSION['st_loggedin'])) {
     <meta name="robots" content="" />
 
     <!-- DESCRIPTION -->
-    <meta name="description" content="PSMS - Student Varifican" />
+    <meta name="description" content="PSMS - Student Varification" />
 
     <!-- OG -->
-    <meta property="og:title" content="PSMS - Student Varifican" />
-    <meta property="og:description" content="PSMS - Student Varifican" />
+    <meta property="og:title" content="PSMS - Student Varification" />
+    <meta property="og:description" content="PSMS - Student Login" />
     <meta property="og:image" content="" />
     <meta name="format-detection" content="telephone=no">
 
@@ -139,9 +146,6 @@ if (!isset($_SESSION['st_loggedin'])) {
             <div class="account-form-inner">
                 <div class="account-container">
                     <div class="heading-bx left">
-                        <h2 class="title-head">Student <span>Varifican</span></h2>
-                        <p class="mb-3"><?php echo $_SESSION['st_loggedin']['name'] ?> Please Varify Your Account</p>
-
                         <?php if (isset($error)) : ?>
                             <div class="alert alert-danger">
                                 <?php echo $error; ?>
@@ -153,65 +157,136 @@ if (!isset($_SESSION['st_loggedin'])) {
                             </div>
                         <?php endif; ?>
 
-                        <!-- varifaction code  -->
+                        <h2 class="title-head">Student <span>Varification</span></h2>
+                        <p class="mb-3"><?php echo $_SESSION['st_loggedin']['name'] ?> Please Varify Your Account!</p>
 
-                        <p>Email:
-                            <?php if ($_SESSION['st_loggedin']['is_email_verifed'] === 1) {
-                                echo "<span class='badge badge-success'> Email Varified! </span>";
-                            } else {
-                                echo "<span class='badge badge-danger'> Email Not Varified! </span>";
-                            }
-                            ?>
-                        </p>
-                        <p>Mobile:
-                            <?php if ($_SESSION['st_loggedin']['is_mobile_verifed'] === 1) {
-                                echo "<span class='badge badge-success'> Mobile Varified! </span>";
-                            } else {
-                                echo "<span class='badge badge-danger'> Mobile Not Varified! </span>";
-                            }
-                            ?>
-                        </p>
-                    </div>
-                    <?php if (isset($_SESSION['email_code_send']) == 1) : ?>
+                        <?php
+                        $email_Status = Student('student', 'is_email_verifed', $user_id);
+                        $mobile_Status = Student('student', 'is_mobile_verifed', $user_id);
 
-                        <form class="contact-bx" method="POST">
-                            <div class="row placeani">
-                                <div class="col-lg-12 m-b30">
-                                    <button name="email_code_send_btn" type="submit" value="Submit" class="btn button-md">Resend Code</button>
-                                </div>
+                        if($email_Status ==1 AND $mobile_Status ==1){
+                            header("location:index.php");
+                        }
+
+                        ?>
+                        <?php if ($email_Status == 1) : ?>
+                            <p>Email: <span class="badge badge-success">Varified</span></p>
+                        <?php else : ?>
+                            <p>Email: <span class="badge badge-danger">Not Varified</span></p>
+                        <?php endif; ?>
+
+
+                        <?php if ($mobile_Status == 1) : ?>
+                            <p>Mobile: <span class="badge badge-success">Varified</span></p>
+                        <?php else : ?>
+                            <p>Mobile: <span class="badge badge-danger">Not Varified</span></p>
+                        <?php endif; ?>
+
+                        <!-- email code send  -->
+                        <?php if ($email_Status != 1) : ?>
+                            <?php if (isset($_SESSION['email_status']) == 1) : ?>
+                                <!-- email code vafify field  -->
+                                <form method="POST">
+                                    <div class="row placeani">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <input name="db_code" type="text" class="form-control" placeholder="Enter Your Code">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 m-b30">
+                                            <button name="email_varify" type="submit" value="Submit" class="btn button-md">Email Varify</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- email code Resend  -->
+                                <form class="contact-bx" method="POST">
+                                    <div class="email-varify mt-4">
+                                        <form class="contact-bx" method="POST">
+                                            <div class="row placeani">
+                                                <div class="col-lg-12 m-b30">
+                                                    <button name="resend_email_code_send" type="submit" value="Submit" class="btn button-md">Resend Email Code</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </form>
+                                <!-- email code re send field  -->
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <!-- email code vafify field end -->
+
+                        <?php if ($email_Status != 1 and !isset($_SESSION['email_status'])) : ?>
+                            <div class="email-varify mt-4">
+                                <form class="contact-bx" method="POST">
+                                    <div class="row placeani">
+                                        <div class="col-lg-12 m-b30">
+                                            <button name="email_code_send" type="submit" value="Submit" class="btn button-md">Send Email Code</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        <?php endif; ?>
 
+                    </div>
+
+                    <!-- email code send  -->
+
+
+
+                    <!-- mobile code send varification  -->
+                    <?php if($mobile_Status !=1): ?>
+                    <?php if (isset($_SESSION['mobile_varify']) == 1) : ?>
                         <form class="contact-bx" method="POST">
                             <div class="row placeani">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <label>Email Code</label>
-                                            <input name="email_code" type="text" class="form-control">
+                                            <label>Mobile Varification Code</label>
+                                            <input name="st_mobile_code" type="text" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 m-b30">
-                                    <button name="email_varify" type="submit" value="Submit" class="btn button-md">Email Varify</button>
+                                    <button name="st_mobile_varify" type="submit" value="Submit" class="btn button-md">Mobile Varify</button>
                                 </div>
                             </div>
                         </form>
 
-                    <?php else : ?>
+
                         <form class="contact-bx" method="POST">
                             <div class="row placeani">
                                 <div class="col-lg-12 m-b30">
-                                    <button name="email_code_send_btn" type="submit" value="Submit" class="btn button-md">Click To Varify Your Email</button>
+                                    <button name="st_mobile_resend_code" type="submit" value="Submit" class="btn button-md">Mobile Resend Code</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    <?php endif; ?>
+                    <?php endif; ?>
+
+
+                    <!-- Hide Send Code Button  -->
+                    <?php if ($mobile_Status != 1 and !isset($_SESSION['mobile_varify'])) : ?>
+                        <form class="contact-bx" method="POST">
+                            <div class="row placeani">
+                                <div class="col-lg-12 m-b30">
+                                    <button name="st_mobile_code_Send" type="submit" value="Submit" class="btn button-md">Send Mobile Code</button>
                                 </div>
                             </div>
                         </form>
                     <?php endif; ?>
-
                 </div>
             </div>
         </div>
     </div>
+<?php 
+ unset($_SESSION['email_status']);
+ unset($_SESSION['mobile_varify'])
+?>
     <!-- External JavaScripts -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
