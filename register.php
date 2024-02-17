@@ -55,7 +55,8 @@ if (isset($_POST['st_registration'])) {
 	} else {
 
 		$password = sha1($password);
-		$now = date("Y-d-m h:i:s");
+		$now =
+		date('Y-m-d H:i:s');
 		// $email_code=rand(9999,999999);
 		// $mobile_code=rand(9999,999999);
 

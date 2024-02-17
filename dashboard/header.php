@@ -4,7 +4,7 @@ session_start();
 $user_id = $_SESSION['st_loggedin']['id'];
 $email_Status = Student('student', 'is_email_verifed', $user_id);
 $mobile_Status = Student('student', 'is_mobile_verifed', $user_id);
-if (!isset($_SESSION['st_loggedin']) and $email_Status != 1 and $mobile_Status != 1) {
+if (!isset($_SESSION['st_loggedin']) or $email_Status != 1 or $mobile_Status != 1) {
     header("location:logout.php");
 }
 
@@ -323,30 +323,27 @@ if (!isset($_SESSION['st_loggedin']) and $email_Status != 1 and $mobile_Status !
                             <span class="ttr-label">Add listing</span>
                         </a>
                     </li>
+
+                    <li class="ttr-seperate"></li>
                     <li>
-                        <a href="#" class="ttr-material-button">
+                        <a href="profile.php" class="ttr-material-button">
                             <span class="ttr-icon"><i class="ti-user"></i></span>
-                            <span class="ttr-label">My Profile</span>
-                            <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                            <span class="ttr-label">Profile</span>
                         </a>
-                        <ul>
-                            <li>
-                                <a href="user-profile.html" class="ttr-material-button"><span class="ttr-label">User Profile</span></a>
-                            </li>
-                            <li>
-                                <a href="teacher-profile.html" class="ttr-material-button"><span class="ttr-label">Teacher Profile</span></a>
-                            </li>
-                        </ul>
                     </li>
-
-
+                    <li>
+                        <a href="change-password.php" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-lock"></i></span>
+                            <span class="ttr-label">Change Password</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="logout.php" class="ttr-material-button">
                             <span class="ttr-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
                             <span class="ttr-label">Logout</span>
                         </a>
                     </li>
-                    <li class="ttr-seperate"></li>
+
                 </ul>
                 <!-- sidebar menu end -->
             </nav>
