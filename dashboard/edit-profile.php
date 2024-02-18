@@ -9,11 +9,18 @@ if (isset($_POST['update_data'])) {
 	$st_name = $_POST['st_name'];
 	$st_f_name = $_POST['st_f_name'];
 	$st_f_m_number = $_POST['st_f_m_mumber'];
-	$st_m_name = $_POST['st_m_mumber'];
+	$st_m_name = $_POST['st_m_name'];
 	$st_m_name = $_POST['st_m_name'];
 	$st_address = $_POST['st_address'];
 	$st_gender = $_POST['gender'];
 	$patten = '/^(?:\+88|88)?(01[3-9]\d{8})$/';
+
+	// file upload 
+	$file = $_FILES['file']['name'];
+	$terget_dir = '../uploads/';
+	$terget_file = $terget_dir . basename($_FILES['file']['name']);
+	$fileExtention = strtolower(pathinfo($terget_file, PATHINFO_EXTENSION));
+
 
 	if (empty($st_name)) {
 		$error = "Please Enter Your Name";
@@ -29,10 +36,19 @@ if (isset($_POST['update_data'])) {
 		$error = "Please Enter Your Address";
 	} elseif (!isset($st_gender)) {
 		$error = "Please Enter Your Gender";
+	} elseif (empty($file)) {
+		$error = "Please ENter Your Photo";
+	} elseif ($fileExtention != "jpg" and $fileExtention != "png" and $fileExtention != "jpeg" and $fileExtention != "gif") {
+		$error = "File Must Be Used Jpeg,Png,jpg Or Gif";
 	} else {
 		unset($_POST);
-		$stm = $conn->prepare("UPDATE student SET name=?,father_name=?,father_mobile=?,mother_name=?,gender=?,address=? WHERE id=?");
-		$res = $stm->execute(array($st_name, $st_f_name, $st_f_m_number, $st_m_name, $st_gender, $st_address, $id));
+		// photo Upload
+		$newPhotoname = $id . "-" . rand(1111, 9999) . "." . $fileExtention;
+		move_uploaded_file($_FILES["file"]["tmp_name"], $terget_dir . $newPhotoname);
+		// photo Upload 
+
+		$stm = $conn->prepare("UPDATE student SET name=?,father_name=?,father_mobile=?,mother_name=?,gender=?,address=?, photo=? WHERE id=?");
+		$res = $stm->execute(array($st_name, $st_f_name, $st_f_m_number, $st_m_name, $st_gender, $st_address, $newPhotoname, $id));
 
 		$success = "Data Update Successfully";
 
@@ -68,16 +84,18 @@ if (isset($_POST['update_data'])) {
 					</div>
 					<div class="widget-inner">
 						<div class="edit-profile m-b30">
-							<?php if (isset($error)) : ?>
-								<div class="alert alert-danger">
-									<?php echo $error;  ?>
-								</div>
-							<?php endif; ?>
-							<?php if (isset($success)) : ?>
-								<div class="alert alert-success">
-									<?php echo $success;  ?>
-								</div>
-							<?php endif; ?>
+							<div class="col-sm-6">
+								<?php if (isset($error)) : ?>
+									<div class="alert alert-danger">
+										<?php echo $error;  ?>
+									</div>
+								<?php endif; ?>
+								<?php if (isset($success)) : ?>
+									<div class="alert alert-success">
+										<?php echo $success;  ?>
+									</div>
+								<?php endif; ?>
+							</div>
 							<div class="">
 								<form action="" method="POST" enctype="multipart/form-data">
 									<div class="form-group row">
@@ -121,33 +139,33 @@ if (isset($_POST['update_data'])) {
 										<div class="col-sm-7">
 											<input type="file" name="file" class="form-control">
 										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label">Address</label>
+										<div class="col-sm-7">
+											<textarea class="form-control" name="st_address"><?php echo $editData['address'] ?></textarea>
 										</div>
-										<div class="form-group row">
-											<label class="col-sm-2 col-form-label">Address</label>
-											<div class="col-sm-7">
-												<textarea class="form-control" name="st_address"><?php echo $editData['address'] ?></textarea>
-											</div>
-										</div>
-										<div class="form-group row">
-											<label class="col-sm-2 col-form-label">Gender</label>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label">Gender</label>
 
-											<input type="radio" <?php if ($editData['gender'] == "male") {
-																	echo "checked";
-																} ?> value="male" name="gender" id="male">
+										<input type="radio" <?php if ($editData['gender'] == "male") {
+																echo "checked";
+															} ?> value="male" name="gender" id="male">
 
-											<label for="male" style="margin-top: 10px;">&nbsp;&nbsp Male</label>&nbsp;&nbsp;
+										<label for="male" style="margin-top: 10px;">&nbsp;&nbsp Male</label>&nbsp;&nbsp;
 
-											<input type="radio" <?php if ($editData['gender'] == 'female') {
-																	echo "checked";
-																} ?> value="male" name="gender" id="female"> <label for="female" style="margin-top: 10px;">&nbsp;&nbsp Female</label>
+										<input type="radio" <?php if ($editData['gender'] == 'female') {
+																echo "checked";
+															} ?> value="male" name="gender" id="female"> <label for="female" style="margin-top: 10px;">&nbsp;&nbsp Female</label>
+									</div>
+									<div class="row">
+										<div class="col-sm-2">
 										</div>
-										<div class="row">
-											<div class="col-sm-2">
-											</div>
-											<div class="col-sm-7">
-												<button type="submit" name="update_data" class="btn">Save changes</button>
-											</div>
+										<div class="col-sm-7">
+											<button type="submit" name="update_data" class="btn">Save changes</button>
 										</div>
+									</div>
 
 								</form>
 							</div>
