@@ -36,15 +36,23 @@ if (isset($_POST['update_data'])) {
 		$error = "Please Enter Your Address";
 	} elseif (!isset($st_gender)) {
 		$error = "Please Enter Your Gender";
-	} elseif (empty($file)) {
-		$error = "Please ENter Your Photo";
-	} elseif ($fileExtention != "jpg" and $fileExtention != "png" and $fileExtention != "jpeg" and $fileExtention != "gif") {
-		$error = "File Must Be Used Jpeg,Png,jpg Or Gif";
-	} else {
+	}  
+	else {
 		unset($_POST);
 		// photo Upload
-		$newPhotoname = $id . "-" . rand(1111, 9999) . "." . $fileExtention;
-		move_uploaded_file($_FILES["file"]["tmp_name"], $terget_dir . $newPhotoname);
+		if (!empty($file)) {
+		 $error = "Please Enter Your Photo";
+
+			if ($fileExtention != "jpg" and $fileExtention != "png" and $fileExtention != "jpeg" and $fileExtention != "gif") {
+				$error = "File Must Be Used Jpeg,Png,jpg Or Gif";
+			}else{
+				$newPhotoname = $terget_dir. $id . "-" . rand(1111, 9999) . "." . $fileExtention;
+				move_uploaded_file($_FILES["file"]["tmp_name"], $newPhotoname);
+			}
+
+		}	else{
+			$newPhotoname=Student('student','photo',$id);
+		}
 		// photo Upload 
 
 		$stm = $conn->prepare("UPDATE student SET name=?,father_name=?,father_mobile=?,mother_name=?,gender=?,address=?, photo=? WHERE id=?");

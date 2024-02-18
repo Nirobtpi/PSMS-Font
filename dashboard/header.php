@@ -184,19 +184,18 @@ if (!isset($_SESSION['st_loggedin']) or $email_Status != 1 or $mobile_Status != 
                         </div>
                     </li>
                     <li>
-                        <?php 
-                            $photo= getUserData('student',$user_id);
-                            if($photo['photo'] != null):
+                        <?php
+                        $photo = getUserData('student', $user_id);
+                        if ($photo['photo'] != null) :
                         ?>
-                        <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="../uploads/<?php echo $photo['photo'] ?>" width="32" height="32"></span></a>
-                        <?php else: ?>
-                        <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="<?php echo $photo['photo'] ?>" width="32" height="32"></span></a>
+                        <?php else : ?>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
                         <?php endif; ?>
                         <div class="ttr-header-submenu">
                             <ul>
-                                <li><a href="user-profile.html">My profile</a></li>
-                                <li><a href="list-view-calendar.html">Activity</a></li>
-                                <li><a href="mailbox.html">Messages</a></li>
+                                <li><a href="profile.php">My profile</a></li>
+                                <li><a href="change-password.php">Change Password</a></li>
                                 <li><a href="logout.php">Logout</a></li>
                             </ul>
                         </div>
