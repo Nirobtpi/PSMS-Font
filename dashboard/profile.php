@@ -19,7 +19,7 @@ $data = getUserData('student', $id);
         </div>
         <!-- Card -->
         <div class="row">
-            <div class="col-md-6 offset-2">
+            <div class="col-md-8 offset-2">
                 <div class="card text-start shadow">
                     <div class="card-body">
                         <table class="table">
@@ -83,7 +83,7 @@ $data = getUserData('student', $id);
                             </tr>
                             <tr>
                                 <td><b>Registration Date :</b></td>
-                                <td><?php echo $data['registration_date'] ?></td>
+                                <td><?php echo date("Y-m-d",strtotime($data['registration_date'])) ?></td>
                             </tr>
                             <tr>
                                 <td><a href="edit-profile.php" class="btn btn-info">Edit Profile</a></td>
