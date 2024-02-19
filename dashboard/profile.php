@@ -5,7 +5,6 @@ $id = $_SESSION['st_loggedin']['id'];
 
 $data = getUserData('student', $id);
 
-
 ?>
 <!--Main container start -->
 <main class="ttr-wrapper">
@@ -83,7 +82,7 @@ $data = getUserData('student', $id);
                             </tr>
                             <tr>
                                 <td><b>Registration Date :</b></td>
-                                <td><?php echo date("Y-m-d",strtotime($data['registration_date'])) ?></td>
+                                <td><?php echo date("Y-m-d", strtotime($data['registration_date'])) ?></td>
                             </tr>
                             <tr>
                                 <td><a href="edit-profile.php" class="btn btn-info">Edit Profile</a></td>
