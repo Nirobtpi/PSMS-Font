@@ -41,3 +41,12 @@ function getUserData($tbl, $id)
     $result = $stm->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
+function AllTableData($tbl)
+{
+    global $conn;
+
+    $stm = $conn->prepare("SELECT * FROM $tbl");
+    $stm->execute(array());
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}

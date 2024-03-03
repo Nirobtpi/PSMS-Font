@@ -89,7 +89,7 @@ if (!isset($_SESSION['st_loggedin']) or $email_Status != 1 or $mobile_Status != 
                 <!-- header left menu start -->
                 <ul class="ttr-header-navigation">
                     <li>
-                        <a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                        <a href="../index.php" class="ttr-material-button ttr-submenu-toggle">HOME</a>
                     </li>
                     <li>
                         <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
@@ -273,62 +273,13 @@ if (!isset($_SESSION['st_loggedin']) or $email_Status != 1 or $mobile_Status != 
                         </a>
                     </li>
                     <li>
-                        <a href="courses.html" class="ttr-material-button">
+                        <a href="class.php" class="ttr-material-button">
                             <span class="ttr-icon"><i class="ti-book"></i></span>
-                            <span class="ttr-label">Courses</span>
+                            <span class="ttr-label">Class</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-email"></i></span>
-                            <span class="ttr-label">Mailbox</span>
-                            <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="mailbox.html" class="ttr-material-button"><span class="ttr-label">Mail Box</span></a>
-                            </li>
-                            <li>
-                                <a href="mailbox-compose.html" class="ttr-material-button"><span class="ttr-label">Compose</span></a>
-                            </li>
-                            <li>
-                                <a href="mailbox-read.html" class="ttr-material-button"><span class="ttr-label">Mail Read</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-calendar"></i></span>
-                            <span class="ttr-label">Calendar</span>
-                            <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="basic-calendar.html" class="ttr-material-button"><span class="ttr-label">Basic Calendar</span></a>
-                            </li>
-                            <li>
-                                <a href="list-view-calendar.html" class="ttr-material-button"><span class="ttr-label">List View</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="bookmark.html" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-bookmark-alt"></i></span>
-                            <span class="ttr-label">Bookmarks</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="review.html" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-comments"></i></span>
-                            <span class="ttr-label">Review</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="add-listing.html" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
-                            <span class="ttr-label">Add listing</span>
-                        </a>
-                    </li>
+
+                    
 
                     <li class="ttr-seperate"></li>
                     <li>
