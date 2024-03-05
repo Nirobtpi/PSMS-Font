@@ -278,8 +278,20 @@ if (!isset($_SESSION['st_loggedin']) or $email_Status != 1 or $mobile_Status != 
                             <span class="ttr-label">Class</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="class-ROUTINE.php" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-book"></i></span>
+                            <span class="ttr-label">Class Routine</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="class.php" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-book"></i></span>
+                            <span class="ttr-label">Class Attendance</span>
+                        </a>
+                    </li>
 
-                    
+
 
                     <li class="ttr-seperate"></li>
                     <li>
